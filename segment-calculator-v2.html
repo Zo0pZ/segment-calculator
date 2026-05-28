@@ -3,13 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Segment Calculator</title>
+    <title>Segment Calculator — Canada Life Investment Bond Planning Tool</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             border-radius: 0 !important;
+        }
+
+        /* ── Skip to content link (WCAG 2.4.1) ── */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            z-index: 9999;
+            background: var(--cl-red);
+            color: white;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* ── Screen-reader only utility ── */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
         }
 
         :root {
@@ -19,7 +47,8 @@
             --cl-red-border:  #E8C0C8;
             --text-dark:      #1A1A1A;
             --text-mid:       #3D3D3D;
-            --text-muted:     #6C757D;
+            --text-muted:     #5E6B78; /* 4.9:1 on white — AA compliant */
+            --input-border:   #767676; /* 4.54:1 on white — satisfies 1.4.11 (3:1) and 1.4.3 */
             --border:         #DEE2E6;
             --bg-light:       #F8F9FA;
             --bg-page:        #F0F2F5;
@@ -65,6 +94,14 @@
             display: grid;
             grid-template-columns: 380px 1fr;
             gap: 24px;
+        }
+
+        /* Reset heading styles so h2/h3 elements styled with card-title/section-label
+           look identical to the previous div versions */
+        h1, h2, h3, h4 {
+            font-size: inherit;
+            font-weight: inherit;
+            line-height: inherit;
         }
 
         /* ── Cards ── */
@@ -117,7 +154,8 @@
             background: var(--cl-red-light);
             border: 1px solid var(--cl-red-border);
             border-radius: 4px;
-            padding: 2px 8px;
+            padding: 4px 8px;      /* min 24px touch target — WCAG 2.5.8 */
+            min-height: 24px;
             cursor: pointer;
             transition: all 0.15s;
             white-space: nowrap;
@@ -163,7 +201,7 @@
         input[type="number"] {
             flex: 1;
             padding: 9px 12px;
-            border: 1.5px solid var(--border);
+            border: 1.5px solid var(--input-border); /* 4.54:1 contrast — WCAG 1.4.11 */
             border-radius: 6px;
             font-size: 0.9rem;
             transition: border-color 0.2s, box-shadow 0.2s;
@@ -172,7 +210,8 @@
         }
 
         input[type="number"]:focus {
-            outline: none;
+            outline: 2px solid var(--cl-red); /* visible in Windows High Contrast Mode */
+            outline-offset: 1px;
             border-color: var(--cl-red);
             box-shadow: 0 0 0 3px rgba(186, 12, 47, 0.1);
         }
@@ -338,8 +377,8 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            opacity: 0.8;
             margin-bottom: 4px;
+            /* opacity removed — use solid colour for WCAG 1.4.3 */
         }
 
         .ts-number {
@@ -352,16 +391,16 @@
 
         .ts-sub {
             font-size: 0.8rem;
-            opacity: 0.85;
+            /* opacity removed — inherits card colour at full opacity for WCAG 1.4.3 */
         }
 
         .ts-cap-note {
             font-size: 0.72rem;
             margin-top: 7px;
-            opacity: 0.8;
             font-style: italic;
             min-height: 0;
             line-height: 1.3;
+            /* opacity removed — WCAG 1.4.3 */
         }
 
         /* 99k comparison */
@@ -434,7 +473,7 @@
         }
 
         .comp-row:last-child { margin-bottom: 0; }
-        .comp-row-label { opacity: 0.75; }
+        /* opacity removed from comp-row-label — WCAG 1.4.3: solid colour inherits from card */
         .comp-row-value { font-weight: 700; }
 
         /* Results info panel (slightly different tint) */
@@ -483,7 +522,7 @@
 
         .meta-input {
             padding: 6px 10px;
-            border: 1.5px solid var(--border);
+            border: 1.5px solid var(--input-border); /* 4.54:1 contrast — WCAG 1.4.11 */
             border-radius: 6px;
             font-size: 0.82rem;
             color: var(--text-dark);
@@ -494,7 +533,8 @@
         }
 
         .meta-input:focus {
-            outline: none;
+            outline: 2px solid var(--cl-red); /* visible in Windows High Contrast Mode */
+            outline-offset: 1px;
             border-color: var(--cl-red);
             box-shadow: 0 0 0 3px rgba(186, 12, 47, 0.1);
         }
@@ -1084,6 +1124,8 @@
     </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<main id="main-content">
 <div class="container">
 
     <!-- Header -->
@@ -1093,11 +1135,11 @@
             <p>Plan investment bond encashments with segment-level precision</p>
         </div>
         <div class="header-meta">
-            <input type="text"  id="clientName"  class="meta-input" placeholder="Client name">
-            <input type="text"  id="adviserName" class="meta-input" placeholder="Adviser name">
-            <input type="date"  id="calcDate"    class="meta-input meta-date">
-            <button class="btn-print" onclick="printReport()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <input type="text"  id="clientName"  class="meta-input" placeholder="Client name"   aria-label="Client name">
+            <input type="text"  id="adviserName" class="meta-input" placeholder="Adviser name" aria-label="Adviser name">
+            <input type="date"  id="calcDate"    class="meta-input meta-date"                  aria-label="Calculation date">
+            <button class="btn-print" onclick="printReport()" aria-label="Print or export as PDF">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
                 Print / Export PDF
             </button>
         </div>
@@ -1107,13 +1149,13 @@
 
         <!-- ── Input panel ── -->
         <div class="card">
-            <div class="card-title">Input Parameters</div>
+            <h2 class="card-title">Input Parameters</h2>
 
             <!-- Growth Rate -->
             <div class="form-group">
                 <div class="field-label-row">
                     <label for="growthRate">Growth Rate (%)</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-growth', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-growth" onclick="toggleInfo('info-growth', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-growth">
                     This will give you a rough estimate of the future value of your Bond. No charges are taken into account, so a growth rate net of charges would be appropriate, and a &ldquo;reduction in yield&rdquo; figure taken from a formal illustration might be a guide when considering which appropriate net growth rate to use.
@@ -1128,7 +1170,7 @@
             <div class="form-group">
                 <div class="field-label-row">
                     <label for="term">Term (Years)</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-term', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-term" onclick="toggleInfo('info-term', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-term">
                     This allows you to select an appropriate planning period to meet your client&rsquo;s needs. It is also used to apply inflation to the target chargeable gain and to determine the top-slicing period.
@@ -1143,7 +1185,7 @@
             <div class="form-group">
                 <div class="field-label-row">
                     <label for="targetGain">Target Chargeable Gain (£)</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-target', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-target" onclick="toggleInfo('info-target', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-target">
                     Allows you to set a maximum level which you might not wish to exceed when planning an assignment or withdrawal. For instance, entering the current personal allowance might help ensure that your client has sufficient policy segments to assign, allowing a non-taxpayer to encash at a level that will not trigger a tax charge. Alternatively, other levels might be selected which, if exceeded, might result in a higher rate of tax being paid.
@@ -1157,13 +1199,14 @@
             <!-- Top Slicing -->
             <div class="form-group">
                 <div class="field-label-row">
-                    <label>Top Slicing Available?</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-topslicing', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <label id="lbl-topslicing">Top Slicing Available?</label>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-topslicing" onclick="toggleInfo('info-topslicing', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-topslicing">
                     Top slicing relief allows the chargeable gain to be divided by the number of complete years the bond has been held. This &ldquo;top slice&rdquo; is assessed against income to determine the tax rate, rather than the full gain. Where top slicing is available, a greater number of segments may be encashed whilst remaining within the target chargeable gain.
                 </div>
-                <div class="radio-group">
+                <!-- role="group" + aria-labelledby associates radios with label — WCAG 1.3.1 -->
+                <div class="radio-group" role="group" aria-labelledby="lbl-topslicing">
                     <div class="radio-option">
                         <input type="radio" id="topSlicingYes" name="topSlicing" value="yes" onchange="scheduleCalc()">
                         <label for="topSlicingYes">Yes</label>
@@ -1179,7 +1222,7 @@
             <div class="form-group">
                 <div class="field-label-row">
                     <label for="policySegments">Number of Policy Segments</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-segments', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-segments" onclick="toggleInfo('info-segments', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-segments">
                     These can be entered in order to see their effect on the efficiency and flexibility of the Policy. CLIAI allows a maximum of 99,999 segments to be selected. The comparison columns will always show if greater flexibility can be achieved for the size of policy and target chargeable gain you wish to consider by selecting the maximum number of segments.
@@ -1194,7 +1237,7 @@
             <div class="form-group">
                 <div class="field-label-row">
                     <label for="inflationRate">Inflation Rate (%)</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-inflation', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-inflation" onclick="toggleInfo('info-inflation', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-inflation">
                     This will allow you to see the effect of increasing the target chargeable gain over the term you have selected. If you wish the target chargeable gain to be a fixed amount, the inflation rate may be set at zero. No other calculations will be affected by this.
@@ -1209,7 +1252,7 @@
             <div class="form-group">
                 <div class="field-label-row">
                     <label for="clientPremium">Client Premium (£)</label>
-                    <button type="button" class="info-btn" onclick="toggleInfo('info-premium', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
+                    <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-premium" onclick="toggleInfo('info-premium', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> More info</button>
                 </div>
                 <div class="info-panel" id="info-premium">
                     Please input your specific client&rsquo;s premium here. All results are calculated specifically for this amount.
@@ -1229,7 +1272,7 @@
 
         <!-- ── Results panel ── -->
         <div class="card">
-            <div class="card-title">Results</div>
+            <h2 class="card-title">Results</h2>
 
             <!-- 6 key metrics -->
             <div class="metrics-grid">
@@ -1260,10 +1303,10 @@
             </div>
 
             <!-- Max segments — top slicing comparison -->
-            <div class="section-label">
+            <h3 class="section-label">
                 Max Segments Encashable
-                <button type="button" class="info-btn" onclick="toggleInfo('info-r-topslicing', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> About these figures</button>
-            </div>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-r-topslicing" onclick="toggleInfo('info-r-topslicing', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> About these figures</button>
+            </h3>
             <div class="results-info-panel" id="info-r-topslicing">
                 <strong>Without top slicing</strong> — the full chargeable gain from each encashed segment is assessed against income in the year of encashment. The maximum number of segments is therefore limited by the target gain divided by the gain per segment.<br><br>
                 <strong>With top slicing</strong> — the gain is divided by the number of complete years the bond has been held (the term) to calculate the effective income for rate-banding purposes. This typically allows a greater number of segments to be encashed while remaining within the target.
@@ -1284,10 +1327,10 @@
             </div>
 
             <!-- 99k comparison -->
-            <div class="section-label">
+            <h3 class="section-label">
                 Comparison: Selected vs 99,999 Segments
-                <button type="button" class="info-btn" onclick="toggleInfo('info-r-99k', this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> About this comparison</button>
-            </div>
+                <button type="button" class="info-btn" aria-expanded="false" aria-controls="info-r-99k" onclick="toggleInfo('info-r-99k', this)"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> About this comparison</button>
+            </h3>
             <div class="results-info-panel" id="info-r-99k">
                 The right-hand column always shows what would be achievable if 99,999 segments were selected instead. A green highlight and &ldquo;More beneficial&rdquo; badge indicates that the maximum number of segments would give greater flexibility — allowing more value to be realised within the target chargeable gain than the number of segments currently entered.
             </div>
@@ -1329,8 +1372,8 @@
                 </div>
             </div>
 
-            <!-- Plain-English summary -->
-            <div class="summary-box" id="summaryBox">
+            <!-- Plain-English summary — aria-live announces to screen readers on update (WCAG 4.1.3) -->
+            <div class="summary-box" id="summaryBox" role="status" aria-live="polite" aria-atomic="true">
                 <span id="summaryText"></span>
             </div>
         </div>
@@ -1339,7 +1382,7 @@
 
     <!-- ── Detailed Analysis Table ── -->
     <div class="detail-card" id="detailCard">
-        <div class="detail-card-header" id="detailHeader" onclick="toggleDetailTable()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDetailTable();}" role="button" tabindex="0" aria-expanded="false">
+        <div class="detail-card-header" id="detailHeader" onclick="toggleDetailTable()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDetailTable();}" role="button" tabindex="0" aria-expanded="false" aria-controls="detailBody">
             <div class="detail-card-header-left">
                 <span>Detailed Analysis</span>
                 <small id="detailSubtitle">Standard premium levels &amp; client premium</small>
@@ -1351,9 +1394,10 @@
             </div>
             <span class="detail-chevron">&#9660;</span>
         </div>
-        <div class="detail-body" id="detailBody">
+        <div class="detail-body" id="detailBody" role="region" aria-label="Detailed Analysis">
         <div class="detail-table-wrap">
             <table class="detail-table" id="detailTable">
+                <caption class="sr-only">Encashment analysis by initial premium level across selected and maximum (99,999) segment structures</caption>
                 <colgroup>
                     <col style="width:9%">  <!-- Initial Premium -->
                     <col style="width:9%">  <!-- Future Bond Value -->
@@ -1370,23 +1414,23 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th rowspan="2" style="text-align:left;">Initial Premium</th>
-                        <th rowspan="2">Future Bond Value</th>
-                        <th colspan="2">Segment Size</th>
-                        <th rowspan="2">Gain per Segment</th>
-                        <th colspan="2">Max Segments Encashable</th>
-                        <th rowspan="2">Total Gain</th>
-                        <th rowspan="2">Value Realised</th>
-                        <th colspan="3" class="group-sep">If 99,999 Segments Selected</th>
+                        <th rowspan="2" scope="col" style="text-align:left;">Initial Premium</th>
+                        <th rowspan="2" scope="col">Future Bond Value</th>
+                        <th colspan="2" scope="colgroup">Segment Size</th>
+                        <th rowspan="2" scope="col">Gain per Segment</th>
+                        <th colspan="2" scope="colgroup">Max Segments Encashable</th>
+                        <th rowspan="2" scope="col">Total Gain</th>
+                        <th rowspan="2" scope="col">Value Realised</th>
+                        <th colspan="3" class="group-sep" scope="colgroup">If 99,999 Segments Selected</th>
                     </tr>
                     <tr class="sub-header">
-                        <th>At outset</th>
-                        <th>Future</th>
-                        <th>No top slicing</th>
-                        <th>Top slicing</th>
-                        <th class="group-sep">Segments encashed</th>
-                        <th>Total gain</th>
-                        <th>Value realised</th>
+                        <th scope="col">At outset</th>
+                        <th scope="col">Future</th>
+                        <th scope="col">No top slicing</th>
+                        <th scope="col">Top slicing</th>
+                        <th class="group-sep" scope="col">Segments encashed</th>
+                        <th scope="col">Total gain</th>
+                        <th scope="col">Value realised</th>
                     </tr>
                 </thead>
                 <tbody id="detailTableBody"></tbody>
@@ -1397,14 +1441,14 @@
 
     <!-- ── Tax Rates & Allowances 2026/27 ── -->
     <div class="tax-ref-card">
-        <div class="tax-ref-header" id="taxRefHeader" onclick="toggleTaxRef()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTaxRef();}" role="button" tabindex="0" aria-expanded="false">
+        <div class="tax-ref-header" id="taxRefHeader" onclick="toggleTaxRef()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTaxRef();}" role="button" tabindex="0" aria-expanded="false" aria-controls="taxRefBody">
             <div class="tax-ref-header-left">
                 <span>Income Tax Rates &amp; Allowances 2026/27</span>
                 <small>England, Wales &amp; Northern Ireland — click to expand</small>
             </div>
             <span class="tax-ref-chevron">&#9660;</span>
         </div>
-        <div class="tax-ref-body" id="taxRefBody">
+        <div class="tax-ref-body" id="taxRefBody" role="region" aria-label="Income Tax Rates and Allowances 2026/27">
             <div class="tax-ref-grid">
 
                 <!-- Allowances -->
@@ -1412,7 +1456,7 @@
                     <h3>Allowances</h3>
                     <table class="tax-ref-table">
                         <thead>
-                            <tr><th>Allowance</th><th>Amount</th></tr>
+                            <tr><th scope="col">Allowance</th><th scope="col">Amount</th></tr>
                         </thead>
                         <tbody>
                             <tr><td>Personal Allowance</td><td>£12,570</td></tr>
@@ -1432,7 +1476,7 @@
                     <h3>Income Tax Rates</h3>
                     <table class="tax-ref-table">
                         <thead>
-                            <tr><th>Rate</th><th>Taxable income band</th></tr>
+                            <tr><th scope="col">Rate</th><th scope="col">Taxable income band</th></tr>
                         </thead>
                         <tbody>
                             <tr>
@@ -1465,6 +1509,7 @@
     <p class="disclaimer">For illustrative purposes only. No charges are taken into account. This calculator does not constitute financial advice.</p>
 
 </div><!-- /container -->
+</main>
 
 <script>
     /* ── Live recalculation ── */
@@ -1486,18 +1531,20 @@
         var panel  = document.getElementById(id);
         var isOpen = panel.classList.contains('open');
 
-        /* Close all panels and deactivate all buttons */
+        /* Close all panels, deactivate all buttons, reset aria-expanded — WCAG 4.1.2 */
         document.querySelectorAll('.info-panel, .results-info-panel').forEach(function(p) {
             p.classList.remove('open');
         });
         document.querySelectorAll('.info-btn').forEach(function(b) {
             b.classList.remove('active');
+            b.setAttribute('aria-expanded', 'false');
         });
 
         /* Re-open if it was closed */
         if (!isOpen) {
             panel.classList.add('open');
             btn.classList.add('active');
+            btn.setAttribute('aria-expanded', 'true');
         }
     }
 
@@ -1794,12 +1841,13 @@
         document.getElementById('detailHeader').setAttribute('aria-expanded', 'false');
         document.getElementById('detailTableBody').innerHTML = '';
 
-        /* Close any open info panels */
+        /* Close any open info panels and reset ARIA state */
         document.querySelectorAll('.info-panel, .results-info-panel').forEach(function(p) {
             p.classList.remove('open');
         });
         document.querySelectorAll('.info-btn').forEach(function(b) {
             b.classList.remove('active');
+            b.setAttribute('aria-expanded', 'false');
         });
     }
 
