@@ -22,7 +22,7 @@
             color: white;
             padding: 10px 20px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-decoration: none;
         }
         .skip-link:focus { top: 0; }
@@ -56,6 +56,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1rem; /* explicit 16px base — WCAG readability */
             background: var(--bg-page);
             min-height: 100vh;
             padding: 32px 20px;
@@ -85,7 +86,7 @@
         }
 
         .header p {
-            font-size: 0.875rem;
+            font-size: 1rem;
             color: var(--text-muted);
         }
 
@@ -114,7 +115,7 @@
         }
 
         .card-title {
-            font-size: 0.75rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--cl-red);
             text-transform: uppercase;
@@ -140,7 +141,7 @@
             display: block;
             font-weight: 600;
             color: var(--text-mid);
-            font-size: 0.86rem;
+            font-size: 1rem;
         }
 
         /* Info toggle button */
@@ -148,7 +149,7 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            font-size: 0.72rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--cl-red);
             background: var(--cl-red-light);
@@ -182,7 +183,7 @@
             border-left: 3px solid var(--cl-red);
             border-radius: 0 6px 6px 0;
             padding: 10px 13px;
-            font-size: 0.82rem;
+            font-size: 1rem;
             color: #5A1A28;
             line-height: 1.65;
             margin-bottom: 8px;
@@ -203,7 +204,7 @@
             padding: 9px 12px;
             border: 1.5px solid var(--input-border); /* 4.54:1 contrast — WCAG 1.4.11 */
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             transition: border-color 0.2s, box-shadow 0.2s;
             background: white;
             color: var(--text-dark);
@@ -224,7 +225,7 @@
         }
 
         .error-msg {
-            font-size: 0.75rem;
+            font-size: 1rem;
             color: #C62828;
             margin-top: 5px;
             display: none;
@@ -257,7 +258,7 @@
             margin: 0;
             cursor: pointer;
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         /* Buttons */
@@ -272,7 +273,7 @@
             padding: 11px 20px;
             border: none;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
@@ -295,7 +296,7 @@
         .btn-secondary:hover { background: var(--cl-red-light); }
 
         .mandatory-note {
-            font-size: 0.78rem;
+            font-size: 1rem;
             color: var(--text-muted);
             font-style: italic;
             margin-top: 10px;
@@ -319,7 +320,7 @@
         }
 
         .metric-label {
-            font-size: 0.72rem;
+            font-size: 1rem;
             color: var(--text-muted);
             font-weight: 600;
             text-transform: uppercase;
@@ -338,7 +339,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.72rem;
+            font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -373,7 +374,7 @@
         }
 
         .ts-badge {
-            font-size: 0.7rem;
+            font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -390,12 +391,12 @@
         }
 
         .ts-sub {
-            font-size: 0.8rem;
+            font-size: 1rem;
             /* opacity removed — inherits card colour at full opacity for WCAG 1.4.3 */
         }
 
         .ts-cap-note {
-            font-size: 0.72rem;
+            font-size: 1rem;
             margin-top: 7px;
             font-style: italic;
             min-height: 0;
@@ -445,7 +446,7 @@
         }
 
         .comp-card-title {
-            font-size: 0.75rem;
+            font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -453,7 +454,7 @@
 
         .better-badge {
             display: none;
-            font-size: 0.65rem;
+            font-size: 1rem;
             font-weight: 700;
             background: #4CAF50;
             color: white;
@@ -468,7 +469,7 @@
         .comp-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.83rem;
+            font-size: 1rem;
             margin-bottom: 5px;
         }
 
@@ -483,7 +484,7 @@
             border-left: 3px solid #5C7CFA;
             border-radius: 0 6px 6px 0;
             padding: 10px 13px;
-            font-size: 0.82rem;
+            font-size: 1rem;
             color: #1A2D6B;
             line-height: 1.65;
             margin-bottom: 12px;
@@ -497,7 +498,7 @@
             border-left: 3px solid var(--cl-red);
             border-radius: 0 6px 6px 0;
             padding: 12px 14px;
-            font-size: 0.84rem;
+            font-size: 1rem;
             color: var(--cl-red-dark);
             line-height: 1.65;
             margin-top: 20px;
@@ -524,7 +525,7 @@
             padding: 6px 10px;
             border: 1.5px solid var(--input-border); /* 4.54:1 contrast — WCAG 1.4.11 */
             border-radius: 6px;
-            font-size: 0.82rem;
+            font-size: 1rem;
             color: var(--text-dark);
             background: white;
             width: 160px;
@@ -552,7 +553,7 @@
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 0.82rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             font-family: inherit;
@@ -698,7 +699,7 @@
         .detail-card-header.open { border-bottom-color: var(--border); }
 
         .detail-chevron {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-muted);
             transition: transform 0.2s;
             flex-shrink: 0;
@@ -717,7 +718,7 @@
         }
 
         .detail-card-header-left span {
-            font-size: 0.75rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--cl-red);
             text-transform: uppercase;
@@ -725,7 +726,7 @@
         }
 
         .detail-card-header-left small {
-            font-size: 0.78rem;
+            font-size: 1rem;
             color: var(--text-muted);
             margin-right: 10px;
         }
@@ -733,7 +734,7 @@
         .detail-legend {
             display: flex;
             gap: 16px;
-            font-size: 0.75rem;
+            font-size: 1rem;
             color: var(--text-muted);
         }
 
@@ -751,21 +752,21 @@
         .legend-gold  { background: #FFF9C4; border: 1px solid #F9A825; }
 
         .detail-table-wrap {
-            overflow-x: visible;
+            overflow-x: auto; /* table scrolls horizontally if wider than container at 16px */
             padding: 0 0 4px;
         }
 
         .detail-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.76rem;
+            font-size: 1rem;
             table-layout: fixed;
         }
 
         .detail-table thead tr:first-child th {
             background: #F0F2F5;
             color: var(--text-muted);
-            font-size: 0.68rem;
+            font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.4px;
@@ -781,7 +782,7 @@
 
         .detail-table thead tr.sub-header th {
             background: white;
-            font-size: 0.68rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--text-muted);
             padding: 5px 6px 7px;
@@ -848,7 +849,7 @@
 
         .client-tag {
             display: inline-block;
-            font-size: 0.65rem;
+            font-size: 1rem;
             font-weight: 700;
             background: var(--cl-red);
             color: white;
@@ -896,7 +897,7 @@
         }
 
         .tax-ref-header-left span {
-            font-size: 0.75rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--cl-red);
             text-transform: uppercase;
@@ -904,13 +905,13 @@
         }
 
         .tax-ref-header-left small {
-            font-size: 0.78rem;
+            font-size: 1rem;
             color: var(--text-muted);
             font-weight: 400;
         }
 
         .tax-ref-chevron {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--text-muted);
             transition: transform 0.2s;
         }
@@ -935,7 +936,7 @@
         }
 
         .tax-ref-section h3 {
-            font-size: 0.78rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--cl-red);
             text-transform: uppercase;
@@ -948,14 +949,14 @@
         .tax-ref-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.83rem;
+            font-size: 1rem;
         }
 
         .tax-ref-table th {
             text-align: left;
             font-weight: 700;
             color: var(--text-muted);
-            font-size: 0.72rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.4px;
             padding: 0 8px 6px 0;
@@ -981,7 +982,7 @@
 
         .rate-pill {
             display: inline-block;
-            font-size: 0.72rem;
+            font-size: 1rem;
             font-weight: 700;
             padding: 1px 7px;
             border-radius: 10px;
@@ -994,7 +995,7 @@
         .rate-zero     { background: #E8F5E9; color: #1B5E20; }
 
         .tax-ref-note {
-            font-size: 0.78rem;
+            font-size: 1rem;
             color: var(--text-muted);
             margin-top: 16px;
             font-style: italic;
@@ -1006,7 +1007,7 @@
         .disclaimer {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.78rem;
+            font-size: 1rem;
             margin-top: 20px;
             font-style: italic;
         }
@@ -1039,7 +1040,7 @@
             .detail-table {
                 display: block;
                 width: 100%;
-                font-size: 0.83rem;
+                font-size: 1rem;
             }
 
             /* Hide column headers — labels come from data-label */
@@ -1072,7 +1073,7 @@
                 white-space: normal;
                 overflow: visible;
                 text-overflow: clip;
-                font-size: 0.83rem;
+                font-size: 1rem;
             }
 
             .detail-table td:last-child { border-bottom: none; }
@@ -1080,7 +1081,7 @@
             /* Label from data-label attribute */
             .detail-table td::before {
                 content: attr(data-label);
-                font-size: 0.75rem;
+                font-size: 1rem;
                 font-weight: 600;
                 color: var(--text-muted);
                 text-align: left;
@@ -1092,7 +1093,7 @@
             /* First cell = card header (premium value as title) */
             .detail-table td:first-child {
                 background: var(--bg-light);
-                font-size: 0.9rem;
+                font-size: 1rem;
                 font-weight: 700;
                 padding: 11px 20px;
                 justify-content: flex-start;
