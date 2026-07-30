@@ -1,0 +1,4 @@
+## 2024-05-24 - Content Security Policy for Static HTML Tools
+**Vulnerability:** Standalone client-side HTML files inherently lack server-side protection. Without strict client-side controls, they are vulnerable to inline script injection (if modified) or data exfiltration.
+**Learning:** For single-page, entirely client-side calculators, a highly restrictive CSP can act as a critical defense layer, essentially locking the application to only run the explicitly trusted inline scripts and styles, while preventing all external connections, framing, or form submissions.
+**Prevention:** Always add a strict CSP meta tag (`<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none';">`) when creating standalone HTML tools that require no external resources.

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Segment Calculator — Canada Life Investment Bond Planning Tool</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none';">
     <style>
         * {
             margin: 0;
@@ -1136,8 +1137,8 @@
             <p>Plan investment bond encashments with segment-level precision</p>
         </div>
         <div class="header-meta">
-            <input type="text"  id="clientName"  class="meta-input" placeholder="Client name"   aria-label="Client name">
-            <input type="text"  id="adviserName" class="meta-input" placeholder="Adviser name" aria-label="Adviser name">
+            <input type="text"  id="clientName"  class="meta-input" placeholder="Client name"   aria-label="Client name" maxlength="100">
+            <input type="text"  id="adviserName" class="meta-input" placeholder="Adviser name" aria-label="Adviser name" maxlength="100">
             <input type="date"  id="calcDate"    class="meta-input meta-date"                  aria-label="Calculation date">
             <button class="btn-print" onclick="printReport()" aria-label="Print or export as PDF">
                 <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
