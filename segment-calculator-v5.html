@@ -1045,8 +1045,59 @@
             font-style: italic;
         }
 
+        /* Calculation indicator */
+        .results-updating::after {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--cl-red);
+            border-radius: 50%;
+            margin-left: 8px;
+            animation: pulse 1.5s ease-in-out infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Empty state hint */
+        .results-empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .results-empty-state p {
+            font-size: 1rem;
+        }
+
+        /* Detail legend — always visible */
+        .detail-legend {
+            display: flex;
+            gap: 16px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        /* Expandable hint */
+        .expandable-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-left: 8px;
+            white-space: nowrap;
+        }
+
         /* ── Responsive ── */
-        @media (max-width: 860px) {
+        @media (max-width: 1024px) {
             .main-content { grid-template-columns: 1fr; }
         }
 
@@ -1213,7 +1264,7 @@
                     This will give you a rough estimate of the future value of your Bond. No charges are taken into account, so a growth rate net of charges would be appropriate, and a &ldquo;reduction in yield&rdquo; figure taken from a formal illustration might be a guide when considering which appropriate net growth rate to use.
                 </div>
                 <div class="input-wrapper">
-                    <input type="number" id="growthRate" value="5.5" step="0.1" min="0" oninput="scheduleCalc();clearFieldError('growthRate')">
+                    <input type="number" id="growthRate" value="5.5" step="0.1" min="0" oninput="validateFieldOnInput('growthRate');scheduleCalc();">
                 </div>
                 <span class="error-msg" id="err-growthRate"></span>
             </div>
@@ -1228,7 +1279,7 @@
                     This allows you to select an appropriate planning period to meet your client&rsquo;s needs.
                 </div>
                 <div class="input-wrapper">
-                    <input type="number" id="term" value="10" step="1" min="1" oninput="scheduleCalc();clearFieldError('term')">
+                    <input type="number" id="term" value="10" step="1" min="1" oninput="validateFieldOnInput('term');scheduleCalc();">
                 </div>
                 <span class="error-msg" id="err-term"></span>
             </div>
@@ -1243,7 +1294,7 @@
                     Allows you to set a maximum level which you might not wish to exceed when planning a segment surrender. For instance, entering the current personal allowance might help ensure that a non-taxpayer can encash at a level that will not trigger a tax charge. Alternatively, other levels might be selected which, if exceeded, might result in a higher rate of tax being paid.
                 </div>
                 <div class="input-wrapper">
-                    <input type="number" id="targetGain" value="12570" step="100" min="0" oninput="scheduleCalc();clearFieldError('targetGain')">
+                    <input type="number" id="targetGain" value="12570" step="100" min="0" oninput="validateFieldOnInput('targetGain');scheduleCalc();">
                 </div>
                 <span class="error-msg" id="err-targetGain"></span>
             </div>
@@ -1258,7 +1309,7 @@
                     Enter the number of segments you wish to have, to see their effect on the efficiency and flexibility of the Policy. CLIAI allows a maximum of 99,999 segments to be selected. The comparison columns will always show if greater flexibility can be achieved for the size of policy and target chargeable gain you wish to consider by selecting the maximum number of segments. Please note that the Wealth Preservation Account has a &pound;10 minimum investment per segment.
                 </div>
                 <div class="input-wrapper">
-                    <input type="number" id="policySegments" value="10" step="1" min="1" max="99999" oninput="scheduleCalc();clearFieldError('policySegments')">
+                    <input type="number" id="policySegments" value="10" step="1" min="1" max="99999" oninput="validateFieldOnInput('policySegments');scheduleCalc();">
                 </div>
                 <span class="error-msg" id="err-policySegments"></span>
             </div>
@@ -1273,7 +1324,7 @@
                     Please input your specific client&rsquo;s premium here. All results are calculated specifically for this amount.
                 </div>
                 <div class="input-wrapper">
-                    <input type="number" id="clientPremium" value="100000" step="100" min="0" oninput="scheduleCalc();clearFieldError('clientPremium')">
+                    <input type="number" id="clientPremium" value="100000" step="100" min="0" oninput="validateFieldOnInput('clientPremium');scheduleCalc();">
                 </div>
                 <span class="error-msg" id="err-clientPremium"></span>
             </div>
@@ -1288,6 +1339,18 @@
         <!-- ── Results panel ── -->
         <div class="card">
             <h2 class="card-title">Results</h2>
+
+            <!-- Empty state hint -->
+            <div class="results-empty-state" id="resultsEmptyState">
+                <p>Enter your parameters and click Calculate to see results</p>
+            </div>
+
+            <!-- Results summary box (key insight) -->
+            <div style="background: var(--cl-red-light); border-left: 3px solid var(--cl-red); border-radius: 0 6px 6px 0; padding: 12px 14px; margin-bottom: 16px; display: none;" id="resultsSummaryBox">
+                <div style="font-size: 1rem; color: var(--cl-red-dark); line-height: 1.65;">
+                    <strong>Recommended encashment:</strong> <span id="summarySuggestion"></span>
+                </div>
+            </div>
 
             <!-- 6 key metrics -->
             <div class="metrics-grid">
@@ -1388,7 +1451,7 @@
     <div class="detail-card" id="detailCard">
         <div class="detail-card-header" id="detailHeader" onclick="toggleDetailTable()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDetailTable();}" role="button" tabindex="0" aria-expanded="false" aria-controls="detailBody">
             <div class="detail-card-header-left">
-                <span>Detailed Analysis</span>
+                <span>Detailed Analysis <span class="expandable-hint">(click to expand)</span></span>
                 <small id="detailSubtitle">Standard premium levels &amp; client premium</small>
             </div>
             <div class="detail-legend">
@@ -1399,6 +1462,12 @@
             <span class="detail-chevron">&#9660;</span>
         </div>
         <div class="detail-body" id="detailBody" role="region" aria-label="Detailed Analysis">
+        <!-- Legend always visible when table opens -->
+        <div class="detail-legend" style="margin-top: 16px;">
+            <span><span class="legend-dot legend-red"></span>Gain/segment exceeds target — no encashment possible within limit</span>
+            <span><span class="legend-dot legend-green"></span>99,999 segments gives greater value</span>
+            <span><span class="legend-dot legend-gold"></span>Your client&rsquo;s premium</span>
+        </div>
         <div class="detail-table-wrap">
             <table class="detail-table" id="detailTable">
                 <caption class="sr-only">Encashment analysis by initial premium level across selected and maximum (99,999) segment structures</caption>
@@ -1469,8 +1538,8 @@
     <div class="tax-ref-card">
         <div class="tax-ref-header" id="taxRefHeader" onclick="toggleTaxRef()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTaxRef();}" role="button" tabindex="0" aria-expanded="false" aria-controls="taxRefBody">
             <div class="tax-ref-header-left">
-                <span>Income Tax Rates &amp; Allowances 2026/27</span>
-                <small>England, Wales &amp; Northern Ireland — click to expand</small>
+                <span>Income Tax Rates &amp; Allowances 2026/27 <span class="expandable-hint">(click to expand)</span></span>
+                <small>England, Wales &amp; Northern Ireland</small>
             </div>
             <span class="tax-ref-chevron">&#9660;</span>
         </div>
@@ -1547,7 +1616,23 @@
             return v !== '' && !isNaN(parseFloat(v));
         });
         if (!allFilled) return;
+        /* Show calculation feedback */
+        showCalculatingState();
         calcTimer = setTimeout(function() { calculate(true); }, 400);
+    }
+
+    function showCalculatingState() {
+        var resultsCard = document.querySelector('.card');
+        if (resultsCard && resultsCard.querySelector('.card-title')) {
+            resultsCard.classList.add('results-updating');
+        }
+    }
+
+    function hideCalculatingState() {
+        var resultsCards = document.querySelectorAll('.card');
+        resultsCards.forEach(function(card) {
+            card.classList.remove('results-updating');
+        });
     }
 
     /* ── Info panel toggle ── */
@@ -1585,6 +1670,29 @@
         var err = document.getElementById('err-' + id);
         if (el)  el.classList.remove('field-invalid');
         if (err) { err.textContent = ''; err.classList.remove('visible'); }
+    }
+
+    /* Inline validation on input (show red border immediately) */
+    function validateFieldOnInput(id) {
+        var fieldDefs = {
+            'growthRate': { test: function(v) { return v >= 0; }, msg: 'Growth rate must be 0% or more' },
+            'term': { test: function(v) { return v >= 1 && Number.isInteger(v); }, msg: 'Term must be a whole number of 1 year or more' },
+            'targetGain': { test: function(v) { return v >= 0; }, msg: 'Target chargeable gain must be £0 or more' },
+            'policySegments': { test: function(v) { return v >= 1 && v <= 99999 && Number.isInteger(v); }, msg: 'Enter a whole number of segments, between 1 and 99,999' },
+            'clientPremium': { test: function(v) { return v > 0; }, msg: 'Client premium must be greater than £0' }
+        };
+
+        var el = document.getElementById(id);
+        var val = parseFloat(el.value);
+        var def = fieldDefs[id];
+
+        if (el.value === '' || isNaN(val)) {
+            clearFieldError(id);
+        } else if (def && !def.test(val)) {
+            showFieldError(id, def.msg);
+        } else {
+            clearFieldError(id);
+        }
     }
 
     /* ── Formatting helpers ── */
@@ -1651,6 +1759,7 @@
                current inputs are invalid — stale results next to fresh errors
                is worse than showing nothing. */
             clearResultsDisplay();
+            hideCalculatingState();
             return;
         }
 
@@ -1740,6 +1849,22 @@
             + alertNote;
 
         document.getElementById('summaryBox').style.display = 'block';
+
+        /* Show results summary box (key insight) */
+        var summaryBoxEl = document.getElementById('resultsSummaryBox');
+        var suggestEl = document.getElementById('summarySuggestion');
+        if (summaryBoxEl && suggestEl) {
+            suggestEl.textContent = 'Encash ' + num(activeMax) + ' segments for ' + gbp(activeGain) + ' chargeable gain.';
+            if (is99kBetter && policySegments < 99999) {
+                suggestEl.textContent += ' Using 99,999 segments would allow ' + gbp(value99k) + ' (' + gbp(value99k - activeValue) + ' more).';
+            }
+            summaryBoxEl.style.display = 'block';
+        }
+
+        /* Hide empty state and show calculating indicator is done */
+        var emptyState = document.getElementById('resultsEmptyState');
+        if (emptyState) emptyState.style.display = 'none';
+        hideCalculatingState();
 
         /* Build detail table */
         buildDetailTable(growthRate, term, policySegments, targetGain, clientPremium, futureValue);
@@ -1845,6 +1970,11 @@
         document.getElementById('compSelTitle').textContent  = 'Based on \u2018Number of Policy Segments\u2019 input';
         document.getElementById('comp99kTitle').textContent   = 'Based on 99,999 segments';
         document.getElementById('summaryBox').style.display = 'none';
+        document.getElementById('resultsSummaryBox').style.display = 'none';
+
+        /* Show empty state hint */
+        var emptyState = document.getElementById('resultsEmptyState');
+        if (emptyState) emptyState.style.display = 'block';
 
         var card = document.getElementById('card99k');
         card.classList.remove('comp-99k-better');
