@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -75,7 +75,7 @@
             padding: 20px 24px;
             margin-bottom: 24px;
             border-left: 5px solid var(--cl-red);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
         }
 
         .header h1 {
@@ -110,7 +110,7 @@
             background: white;
             border-radius: 10px;
             padding: 24px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             border: 1px solid var(--border);
         }
 
@@ -179,12 +179,12 @@
         /* Info panel (expandable) */
         .info-panel {
             display: none;
-            background: #FFF8F9;
+            background: #F5F5F5;
             border-left: 3px solid var(--cl-red);
             border-radius: 0 6px 6px 0;
             padding: 10px 13px;
             font-size: 1rem;
-            color: #5A1A28;
+            color: var(--text-dark);
             line-height: 1.65;
             margin-bottom: 8px;
         }
@@ -212,9 +212,9 @@
 
         input[type="number"]:focus {
             outline: 2px solid var(--cl-red); /* visible in Windows High Contrast Mode */
-            outline-offset: 1px;
+            outline-offset: 2px;
             border-color: var(--cl-red);
-            box-shadow: 0 0 0 3px rgba(186, 12, 47, 0.1);
+            box-shadow: 0 0 0 4px rgba(186, 12, 47, 0.15);
         }
 
         /* Invalid field state */
@@ -362,9 +362,9 @@
         }
 
         .ts-no {
-            background: var(--cl-red-light);
-            border-color: var(--cl-red-border);
-            color: var(--cl-red-dark);
+            background: #FFF9E6;
+            border-color: #F4E4A6;
+            color: #8B6914;
         }
 
         .ts-yes {
@@ -380,6 +380,16 @@
             letter-spacing: 0.5px;
             margin-bottom: 4px;
             /* opacity removed — use solid colour for WCAG 1.4.3 */
+        }
+
+        .ts-no .ts-badge::before {
+            content: '⚠ ';
+            margin-right: 2px;
+        }
+
+        .ts-yes .ts-badge::before {
+            content: '✓ ';
+            margin-right: 2px;
         }
 
         .ts-number {
@@ -450,6 +460,16 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        .comp-selected .comp-card-title::before {
+            content: '📊 ';
+            margin-right: 4px;
+        }
+
+        .comp-99k-better .comp-card-title::before {
+            content: '⭐ ';
+            margin-right: 4px;
         }
 
         .better-badge {
@@ -535,9 +555,9 @@
 
         .meta-input:focus {
             outline: 2px solid var(--cl-red); /* visible in Windows High Contrast Mode */
-            outline-offset: 1px;
+            outline-offset: 2px;
             border-color: var(--cl-red);
-            box-shadow: 0 0 0 3px rgba(186, 12, 47, 0.1);
+            box-shadow: 0 0 0 4px rgba(186, 12, 47, 0.15);
         }
 
         .meta-input::placeholder { color: var(--text-muted); }
@@ -685,7 +705,7 @@
         .detail-card {
             background: white;
             border-radius: 10px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             border: 1px solid var(--border);
             margin-top: 24px;
             display: none;
@@ -868,9 +888,14 @@
 
         /* Cell: gain/segment too high for any encashment */
         .detail-table td.cell-warn {
-            background: #FFCDD2;
-            color: #B71C1C;
+            background: #FFF9E6;
+            color: #8B6914;
             font-weight: 700;
+        }
+
+        .detail-table td.cell-warn::before {
+            content: '⚠ ';
+            margin-right: 2px;
         }
 
         /* Cell: 99k gives better value */
@@ -878,6 +903,18 @@
             background: #DCEDC8;
             color: #33691E;
             font-weight: 700;
+        }
+
+        .detail-table td.cell-better::before {
+            content: '⭐ ';
+            margin-right: 2px;
+        }
+
+        /* Client row badge */
+        .detail-table tr.row-client td:first-child::after {
+            content: ' 👤';
+            margin-left: 4px;
+            font-size: 0.9rem;
         }
 
         .client-tag {
@@ -898,7 +935,7 @@
         .tax-ref-card {
             background: white;
             border-radius: 10px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             border: 1px solid var(--border);
             margin-top: 24px;
             overflow: hidden;
@@ -1454,19 +1491,14 @@
                 <span>Detailed Analysis <span class="expandable-hint">(click to expand)</span></span>
                 <small id="detailSubtitle">Standard premium levels &amp; client premium</small>
             </div>
-            <div class="detail-legend">
-                <span><span class="legend-dot legend-red"></span>Gain/segment exceeds target — no encashment possible within limit</span>
-                <span><span class="legend-dot legend-green"></span>99,999 segments gives greater value</span>
-                <span><span class="legend-dot legend-gold"></span>Your client&rsquo;s premium</span>
-            </div>
             <span class="detail-chevron">&#9660;</span>
         </div>
         <div class="detail-body" id="detailBody" role="region" aria-label="Detailed Analysis">
         <!-- Legend always visible when table opens -->
         <div class="detail-legend" style="margin-top: 16px;">
-            <span><span class="legend-dot legend-red"></span>Gain/segment exceeds target — no encashment possible within limit</span>
-            <span><span class="legend-dot legend-green"></span>99,999 segments gives greater value</span>
-            <span><span class="legend-dot legend-gold"></span>Your client&rsquo;s premium</span>
+            <span><span class="legend-dot legend-red"></span>⚠ Exceeds target — no encashment possible</span>
+            <span><span class="legend-dot legend-green"></span>⭐ Better value with 99,999 segments</span>
+            <span><span class="legend-dot legend-gold"></span>👤 Your client&rsquo;s premium</span>
         </div>
         <div class="detail-table-wrap">
             <table class="detail-table" id="detailTable">
