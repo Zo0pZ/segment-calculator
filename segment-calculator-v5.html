@@ -770,11 +770,12 @@ a<!DOCTYPE html>
 
         .legend-dot {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 2px;
-            margin-right: 5px;
+            margin-right: 6px;
             vertical-align: middle;
+            flex-shrink: 0;
         }
 
         .legend-red   { background: #FFCDD2; border: 1px solid #E57373; }
@@ -1117,13 +1118,14 @@ a<!DOCTYPE html>
         /* Detail legend — always visible */
         .detail-legend {
             display: flex;
-            gap: 16px;
-            font-size: 1rem;
+            gap: 32px;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 12px;
-            padding-bottom: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border);
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         /* Expandable hint */
@@ -1167,7 +1169,8 @@ a<!DOCTYPE html>
 
             .detail-legend {
                 flex-wrap: wrap;
-                gap: 10px;
+                gap: 16px;
+                justify-content: flex-start;
             }
 
             /* Switch entire table to block so colgroup has no effect */
