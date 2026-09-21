@@ -1435,15 +1435,28 @@
             <table class="detail-table detail-secondary-table" id="detail99kTable">
                 <caption class="sr-only">Encashment analysis using 99,999 segments</caption>
                 <colgroup>
-                    <col style="width:33%">
-                    <col style="width:33%">
-                    <col style="width:34%">
+                    <col style="width:11%"> <!-- Initial Premium -->
+                    <col style="width:11%"> <!-- Future Bond Value -->
+                    <col style="width:9%">  <!-- Seg size outset -->
+                    <col style="width:9%">  <!-- Seg size future -->
+                    <col style="width:13%"> <!-- Gain per seg -->
+                    <col style="width:15%"> <!-- Max segments encashed -->
+                    <col style="width:14%"> <!-- Total gain -->
+                    <col style="width:18%"> <!-- Value realised -->
                 </colgroup>
                 <thead>
+                    <tr>
+                        <th rowspan="2" scope="col" style="text-align:left;">Initial Premium</th>
+                        <th rowspan="2" scope="col">Future Bond Value</th>
+                        <th colspan="2" scope="colgroup">Segment Size</th>
+                        <th rowspan="2" scope="col">Gain per Segment</th>
+                        <th rowspan="2" scope="col">Max Segments Encashed</th>
+                        <th rowspan="2" scope="col">Total Gain</th>
+                        <th rowspan="2" scope="col">Value Realised</th>
+                    </tr>
                     <tr class="sub-header">
-                        <th scope="col">Segments encashed</th>
-                        <th scope="col">Total gain</th>
-                        <th scope="col">Value realised</th>
+                        <th scope="col">At outset</th>
+                        <th scope="col">Future</th>
                     </tr>
                 </thead>
                 <tbody id="detail99kTableBody"></tbody>
@@ -1795,9 +1808,14 @@
             var tr99k = document.createElement('tr');
             if (isClient) tr99k.classList.add('row-client');
             tr99k.innerHTML =
-                '<td data-label="Segments encashed">' + num(max99) + '</td>' +
-                '<td data-label="Total gain">' + gbp(gain99) + '</td>' +
-                '<td data-label="Value realised" class="' + (isBetter ? 'cell-better' : '') + '">' + gbp(val99) + '</td>';
+                '<td data-label="">' + premiumCell + '</td>' +
+                '<td data-label="Future Bond Value">' + gbp(fv) + '</td>' +
+                '<td data-label="Seg. Size (Outset)">' + gbpSeg(seg99Out) + '</td>' +
+                '<td data-label="Seg. Size (Future)">' + gbpSeg(seg99Fut) + '</td>' +
+                '<td data-label="Gain per Segment">' + gbpSeg(gps99) + '</td>' +
+                '<td data-label="Max Segments Encashed">' + num(max99) + '</td>' +
+                '<td data-label="Total Gain">' + gbp(gain99) + '</td>' +
+                '<td data-label="Value Realised" class="' + (isBetter ? 'cell-better' : '') + '">' + gbp(val99) + '</td>';
             document.getElementById('detail99kTableBody').appendChild(tr99k);
         });
 
